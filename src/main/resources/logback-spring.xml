@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60" debug="false">  
+    <!-- 文件输出格式 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">       
+          <encoder>   
+              <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+        </encoder>   
+    </appender>
+    <appender name="Debug-File" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+             <fileNamePattern>logs/project/debug/%d{yyyy-MM-dd}-%i.log</fileNamePattern>   
+            <maxHistory>365</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        <encoder>   
+            <pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>   
+        </encoder>   
+    </appender>
+    <appender name="Error-File" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+             <fileNamePattern>logs/project/error/%d{yyyy-MM-dd}-%i.log</fileNamePattern>   
+            <maxHistory>365</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        <encoder>   
+            <pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>   
+        </encoder>   
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->  
+            <level>ERROR</level>  
+            <onMatch>ACCEPT</onMatch>  
+           <onMismatch>DENY</onMismatch>  
+        </filter>  
+    </appender>
+    <appender name="SystemFile" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+             <fileNamePattern>logs/system/%d{yyyy-MM-dd}-%i.log</fileNamePattern>   
+            <maxHistory>365</maxHistory> 
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        <encoder>   
+              <pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>   
+        </encoder>   
+    </appender>
+
+    <logger name="com.ucs.xcbank.csiiupay" level="debug" additivity="false">
+          <appender-ref ref="STDOUT"/>
+        <appender-ref ref="Debug-File"/>
+        <appender-ref ref="Error-File"/>
+    </logger>
+
+    <root  level="INFO">       
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="SystemFile" />
+    </root>
+</configuration>
